@@ -1,0 +1,4 @@
+interface:
+  display_name: "AAAI-27 Hard Gate"
+  short_description: "Strict AAAI-27 paper, figure, and PDF checks"
+  default_prompt: "Use $aaai27-hard-gate to run the complete strict AAAI-27 source, PDF, figure, table, and checklist gate on my paper."
