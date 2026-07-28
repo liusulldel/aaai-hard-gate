@@ -1,47 +1,68 @@
-# AAAI Hard Gate
+# AAAI-27 Hard Gate
 
-AAAI Hard Gate is a Codex skill for researchers who want a conference paper checked as a scientific artifact, not polished as a sales pitch.
+Catch submission-format failures before they become desk-rejection reasons.
 
-It turns an idea, draft, or revision into an auditable research package. The workflow fixes the scientific contract, maps novelty against primary sources, tests proofs and experiments together, and runs independent researcher-lens reviews against frozen evidence. It also checks notation, claim scope, reproducibility, readability, and release files.
+AAAI-27 Hard Gate is a fail-closed Codex skill for checking—and then fixing—an
+AAAI 2027 main-track review submission against the official AAAI Author Kit,
+submission instructions, and technical-track page rules. A successful LaTeX
+build or OpenReview upload is not treated as proof of compliance.
 
-## What it guards
+## What it checks
 
-- **Scientific claims:** Every headline claim needs a theorem, stored result, primary citation, or explicit limitation.
-- **Reviewer simulations:** Researcher lenses use the same frozen evidence, preserve dissent, and never pose as real reviews or endorsements.
-- **Theory and experiments:** Assumptions, counterexamples, seeds, raw outputs, figures, and hashes stay connected.
-- **Writing quality:** The workflow defines jargon, audits notation, and removes formulaic prose after the science stabilizes.
-- **Release integrity:** Tests, PDFs, archives, manifests, and deferred gates receive a final check before handoff.
+- Official, unmodified `aaai2027.sty` and anonymous submission mode
+- US-Letter geometry, two-column layout, margins, gutter, and page limits
+- Pages 1–7 for all paper content and pages 8–9 for references only
+- Forbidden LaTeX packages, spacing tricks, cropping, and table scaling
+- PDF version, encryption, metadata, links, bookmarks, page rotation, and fonts
+- Missing checklist, acknowledgments, author leaks, and source/PDF mismatch
 
-## Use it when
+## Plot and table hard gate
 
-Use the skill to develop or revise an AAAI, NeurIPS, ICML, ICLR, AAMAS, or similar submission; build a reviewer-conditioned revision loop; audit a technical manuscript; or package a reproducible paper and supplement.
+The skill also finds plot-format violations and drives the repair loop:
 
-Example prompt:
+- Plot labels and in-figure text must be at least 9 pt at final placed size
+- Raster graphics must be 300 dpi
+- Fonts must be embedded, with no Type 3 or Identity encoding
+- Lines must be at least 0.5 pt
+- Contrast must exceed 4.5:1 and meaning must survive grayscale
+- Figure callouts use Times Roman or Helvetica
+- Captions stay below figures and tables in 10 pt Roman
+- Graphics must be externally cropped, legible, and inside margins and gutter
+- Tables use 10 pt Roman where possible, never below 9 pt, with no whole-table scaling
 
-```text
-Use $build-reviewer-conditioned-paper to turn this draft into a rigorous,
-reviewer-tested AAAI submission package. Preserve failed studies, keep claims
-within the evidence, and report every release gate as pass, fail, deferred, or
-author action.
-```
+Automatic checks are combined with required rendered-page inspection. The gate
+does not silently downgrade uncertain visual issues to advice.
 
 ## Install
 
-Copy `build-reviewer-conditioned-paper` into your Codex skills directory:
+Copy `aaai27-hard-gate` into your Codex skills directory:
 
 ```bash
-cp -R build-reviewer-conditioned-paper "${CODEX_HOME:-$HOME/.codex}/skills/"
+cp -R aaai27-hard-gate "${CODEX_HOME:-$HOME/.codex}/skills/"
 ```
 
-Start a new Codex task, then invoke `$build-reviewer-conditioned-paper`.
+Start a new Codex task and invoke `$aaai27-hard-gate`.
 
-## Included
+## Run
 
-- A complete hard-gate workflow from intake through release
-- A researcher-lens review protocol with ethical boundaries
-- Templates for the PRD, claim ledger, source ledger, notation ledger, review actions, readability report, and release manifest
-- A safe initializer that creates missing research records without overwriting existing work
+```bash
+python3 aaai27-hard-gate/scripts/check_aaai27.py \
+  --tex /absolute/path/main.tex \
+  --pdf /absolute/path/main.pdf \
+  --checklist /absolute/path/ReproducibilityChecklist.pdf
+```
 
-## Scope
+Fix every `FAIL`, inspect every `MANUAL` gate, add only attestations that were
+actually verified, and rerun until the result is `PASS`.
 
-This is an independent research workflow. It is not affiliated with AAAI or any other venue. Simulated reviews do not represent named researchers, assigned reviewers, endorsements, or acceptance forecasts.
+## Authority and scope
+
+The bundled rules were verified against the official AAAI-27 materials on
+2026-07-27:
+
+- [AAAI-27 Author Kit](https://aaai.org/authorkit27/)
+- [AAAI-27 submission instructions](https://aaai.org/conference/aaai/aaai-27/submission-instructions/)
+- [AAAI-27 Main Technical Track call](https://aaai.org/conference/aaai/aaai-27/main-technical-track-call/)
+
+The official AAAI materials remain authoritative if they change. This
+independent tool is not affiliated with or endorsed by AAAI.
