@@ -1,4 +1,0 @@
-interface:
-  display_name: "Build Reviewer-Conditioned Paper"
-  short_description: "Build rigorous papers through frozen review loops"
-  default_prompt: "Use $build-reviewer-conditioned-paper to turn this research idea or draft into a rigorous, reviewer-tested conference package."
